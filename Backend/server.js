@@ -8,6 +8,7 @@ import orderRouter from "./routes/orderRoutes.js";
 import productRouter from "./routes/productRoutes.js";
 import cartRouter from './routes/cartRoutes.js'
 import adminRouter from "./routes/adminRoutes.js";
+import notificationRouter from "./routes/notificationRoutes.js";
 
 const app = express();
 const PORT = 4000;
@@ -26,7 +27,7 @@ app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter)
 
 app.use("/api/admin", adminRouter);
-
+app.use("/api/notification", notificationRouter);
 app.post("/test", (req, res) => {
     console.log("TEST BODY:", req.body);
   

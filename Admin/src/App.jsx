@@ -8,6 +8,7 @@ import Users from "./components/Users"
 import Dashboard from "./components/Dashboard"
 import ProtectedRoute from "./components/ProtectedRoute"
 import AdminLogin from "./components/AdminLogin"
+import Notifications from "./components/Notifications"
 
 const AdminLayout = () => (
   <div style={{ display: "flex" }}>
@@ -38,6 +39,7 @@ const App = () => {
           <Route path="list" element={<List />} />
           <Route path="orders" element={<Orders />} />
           <Route path="users" element={<Users />} />
+          <Route path="notifications" element={<Notifications />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />

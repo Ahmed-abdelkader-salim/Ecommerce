@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useNavigate, NavLink } from "react-router-dom"
-import { PlusCircle, List, ClipboardCheck, Menu, X, LogOut, LayoutDashboard } from "lucide-react"
+import { PlusCircle, List,Shield, ClipboardCheck, Menu, X, LogOut, LayoutDashboard } from "lucide-react"
 
 const Sidebar = () => {
     const [open, setIsOpen] = useState(true)
@@ -11,6 +11,7 @@ const Sidebar = () => {
         { to: "/admin/add", label: 'إضافة منتج', Icon: PlusCircle },
         { to: "/admin/list", label: 'قائمة المنتجات', Icon: List },
         { to: '/admin/orders', label: 'طلبات العملاء', Icon: ClipboardCheck },
+        { to: '/admin/users', label: 'إدارة المستخدمين', Icon: Shield },
     ]
 
     const handleLogout = () => {

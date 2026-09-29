@@ -126,3 +126,65 @@ export const registerUser = async(req, res) => {
         res.status(500).json({ success: false, message: error.message })
     }
 }
+
+
+export const getAllUsers = async(req, res) => {
+    try{
+        const users = await User.find().select('-password');
+        res.status(200).json({success:true, data:users})
+    }catch(error){
+        console.error('Get All Users Error:', error)
+        res.status(500).json({success:false, message:error.message})
+    }
+}
+
+
+export const deleteUser = async(req, res) => {
+    try{
+        const {id} = req.params;
+        const deletedUser = await User.findByIdAndDelete(id);
+        if(!deletedUser){
+            return res.status(404).json({success:false, message:'User not found'})
+        }
+        res.status(200).json({success:true, message:'User deleted successfully'})
+    }catch(error){
+        console.error('Delete User Error:', error)
+        res.status(500).json({success:false, message:error.message})
+    }
+}
+
+
+export const makeAdmin = async(req, res) => {
+    try{
+        const {id} = req.params;
+        const updatedUser = await User.findByIdAndUpdate(id, {isAdmin:true}, {new:true});
+        if(!updatedUser){
+            return res.status(404).json({success:false, message:'User not found'})
+        }
+        res.status(200).json({success:true, message:'User is now an admin', data:updatedUser})
+    }catch(error){
+        console.error('Make Admin Error:', error)
+        res.status(500).json({success:false, message:error.message})
+    }
+}
+
+
+
+export const demoteToUser = async(req, res) => {
+    try{
+        const {id} = req.params;
+        const user = await User.findById(id);
+        if(!user){
+            return res.status(404).json({success:false, message:'User not found'})
+        }
+        if(!user.isAdmin){
+            return res.status(400).json({success:false, message:'User is not an admin'})
+        }
+        user.isAdmin = false;
+        await user.save();
+        res.status(200).json({success:true, message:'User is no longer an admin', user})
+    }catch(error){
+        console.error('Demote to User Error:', error)
+        res.status(500).json({success:false, message:error.message})
+    }
+}

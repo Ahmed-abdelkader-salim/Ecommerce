@@ -1,3 +1,4 @@
+import Notification from "../models/Notification.js";
 import Order from "../models/Order.js";
 import User from "../models/User.js";
 import Stripe from "stripe";
@@ -59,7 +60,12 @@ export const verifyOrder = async (req, res) => {
     const { orderId, success } = req.body
     try {
         if (success === "true") {
-            await Order.findByIdAndUpdate(orderId, { payment: true }) // ✅
+       const order = await Order.findByIdAndUpdate(orderId, { payment: true }).populate("userId", "name email") // ✅
+            await Notification.create({
+                orderId: orderId,
+                message: `تم دفع الطلب جديد برقم ${orderId}بنجاح من الستخدم ${order?.userId?.name} `,
+                user: order?.userId?.name || "UNKNOWN",
+            })
             res.json({ success: true, message: "Paid" })
         } else {
             await Order.findByIdAndDelete(orderId)
